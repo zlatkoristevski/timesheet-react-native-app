@@ -2,13 +2,16 @@ import { AsyncStorage } from 'react-native';
 
 import Config from '../../config';
 
+import registerForPushNotificationsAsync from '../../helpers/registerForPushNotifications';
+
+
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const LOGOUT = 'LOGOUT';
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 
-export const setLoggedIn = (user_id, user_name, company_id, company_logo, token) => {
-    return { type: SET_LOGGED_IN, user_id: user_id, company_id: company_id, company_logo: company_logo, user_name: user_name, token: token };
+export const setLoggedIn = (user_id, user_name, company_id, department_id,  company_logo, token) => {
+    return { type: SET_LOGGED_IN, user_id: user_id, company_id: company_id, department_id: department_id, company_logo: company_logo, user_name: user_name, token: token };
 };
 
 export const setProfileData = (user_name, user_email) => {
@@ -32,6 +35,12 @@ export const login = (email, password, remember_me) => {
           email, 
           password,
           remember_me
+        );
+      }else{
+        saveLoginCredentialsToStorage(
+          "", 
+          "",
+          false
         );
       }
 
@@ -58,12 +67,15 @@ export const login = (email, password, remember_me) => {
   
       const resData = await response.json();
 
+      console.log(resData.response_data);
+
       if(resData.response == 200){
         dispatch(
           setLoggedIn(
             resData.response_data.user_id,
             resData.response_data.user_full_name,
             resData.response_data.user_company_id,
+            resData.response_data.user_department_id,
             resData.response_data.company_logo,
             resData.response_data.access_token,
             resData.response_data.token_expires_at,
@@ -77,12 +89,15 @@ export const login = (email, password, remember_me) => {
           )
         );
 
+        registerForPushNotificationsAsync(resData.response_data.user_id, resData.response_data.access_token);
+
 
         saveDataToStorage(
           resData.response_data.user_id, 
           resData.response_data.user_full_name, 
           resData.response_data.user_email, 
           resData.response_data.user_company_id, 
+          resData.response_data.user_department_id, 
           resData.response_data.company_logo,
           resData.response_data.access_token,
           resData.response_data.token_expires_at
@@ -96,7 +111,7 @@ export const login = (email, password, remember_me) => {
     };
   };
 
-const saveDataToStorage = (userId, userName, userEmail, companyId, companyLogo, token, token_expires_at ) => {
+const saveDataToStorage = (userId, userName, userEmail, companyId, departmentId, companyLogo, token, token_expires_at ) => {
     AsyncStorage.setItem(
       'userData',
       JSON.stringify({
@@ -104,6 +119,7 @@ const saveDataToStorage = (userId, userName, userEmail, companyId, companyLogo, 
         userId: userId,
         userEmail: userEmail,
         companyId: companyId,
+        departmentId: departmentId,
         companyLogo: companyLogo,
         userName: userName,
         tokenExpiresAt: token_expires_at,

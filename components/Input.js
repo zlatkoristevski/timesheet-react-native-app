@@ -9,11 +9,13 @@ const Input = props => {
         <View style={styles.inputHolder}>
             <Text style={styles.label}>{props.label}</Text>
             <TextInput 
+                
                 placeholder={props.placeholder} 
                 title={props.title}
                 style={{ ...styles.input}}  
                 onChangeText={props.onInputChange}
                 textContentType="password"
+                
 
                 {...props}
             />
@@ -25,7 +27,7 @@ const Input = props => {
 
 const styles = StyleSheet.create({
     inputHolder: {
-        marginBottom: 20,  
+        marginBottom: 10,  
     },
     label: {
         paddingBottom: 5,

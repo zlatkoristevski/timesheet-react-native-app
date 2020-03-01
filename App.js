@@ -12,11 +12,13 @@ import ReduxThunk from 'redux-thunk';
 import authReducer from './store/reducers/auth';
 import timesheetReducer from './store/reducers/timesheet';
 import profileReducer from './store/reducers/profile';
+import calendarReducer from './store/reducers/calendar';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   timesheet: timesheetReducer,
   profile: profileReducer,
+  calendar: calendarReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

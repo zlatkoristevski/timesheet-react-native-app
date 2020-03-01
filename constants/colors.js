@@ -3,6 +3,7 @@ export default {
     secondary: 'gray',
     bordersGray: '#ededed',
     white: 'white',
+    black: 'black',
     orange: '#E78722',
 
     lightBlueOne: '#D6EBEE',
@@ -14,5 +15,8 @@ export default {
 
     regularGray: '#9c9c9c',
     pikselGreen: '#82B540',
-    pikselLightGreen: '#9BC466'
+    pikselLightGreen: '#9BC466',
+
+    darkGray: '#858585',
+    lightGray: '#f8f9fa',
 }

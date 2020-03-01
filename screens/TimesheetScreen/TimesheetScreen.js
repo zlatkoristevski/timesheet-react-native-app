@@ -44,6 +44,14 @@ const TimesheetScreen = props => {
   const projectsData = useSelector(state => state.timesheet.projectsData);
   const authData = useSelector(state => state.auth);
 
+  if(authData.logged_in_department_id == "Management"){
+    return (
+      <View style={styles.centered}>
+        <Text>You don't have access on this screen</Text>
+      </View>
+    );
+  }
+
 
   //define state for selected date
   const [selectedDate, setSelectedDate] = useState(getTodayDate());
@@ -154,6 +162,26 @@ const TimesheetScreen = props => {
     });
   }
 
+  
+
+
+  const calculateTotalHoursForToday = () => {
+    // console.log(timesheetData);
+    let totalHours = 0;
+    Object.keys(timesheetData).forEach(function(key) {
+      
+      let projectData = timesheetData[key].projectData;
+      Object.keys(projectData).forEach(function(key2) {
+        totalHours = totalHours + parseFloat(projectData[key2].hours);
+      });
+    });
+
+    return totalHours;
+  }
+
+  let totalHours = calculateTotalHoursForToday();
+
+
   const checkTimesheetDataIsFilledCorrectly = () => {
     // console.log(timesheetData);
     let has_error = 0;
@@ -163,6 +191,7 @@ const TimesheetScreen = props => {
       }
       let projectData = timesheetData[key].projectData;
       Object.keys(projectData).forEach(function(key2) {
+        
         if(projectData[key2].projectId == 0){
           has_error = 1;
         }
@@ -351,7 +380,10 @@ const TimesheetScreen = props => {
       </View>
 
       
-
+      <View style={styles.totalHoursHolder}>
+        <Text style={styles.totalHoursLbl}>Total hours for today: </Text>
+        <Text style={styles.totalHoursVal}>{totalHours} hours</Text>
+      </View>
       <View style={styles.switchDaysButton}>
         <BottomNavButton icon="ios-arrow-back"  onPress={() => selectPreviousWeekHandler()} title="Prev Week" />
         <BottomNavButton icon="ios-arrow-forward" onPress={() => selectNextWeekHandler()} title="Next Week" />
@@ -366,8 +398,11 @@ const TimesheetScreen = props => {
 
 
 TimesheetScreen.navigationOptions = (navigationData) => {
+  
 
-  return {headerTitle: 'Timesheet',
+  return {
+    drawerLabel: () => null,
+    headerTitle: 'Timesheet',
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item

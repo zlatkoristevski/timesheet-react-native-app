@@ -7,6 +7,9 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 
+import registerForPushNotificationsAsync from '../helpers/registerForPushNotifications';
+
+
 import Colors from '../constants/colors';
 
 import { 
@@ -31,8 +34,11 @@ const StartupScreen = props => {
       }else{
         const userDataArr = JSON.parse(userData);
 
+
         const todaysDate = new Date();
         const expirationDate = toJSDate(userDataArr.tokenExpiresAt);
+
+        registerForPushNotificationsAsync(userDataArr.userId, userDataArr.token);
 
         if (expirationDate <= todaysDate) {
           props.navigation.navigate('Login');
@@ -44,6 +50,7 @@ const StartupScreen = props => {
             userDataArr.userId,
             userDataArr.userName,
             userDataArr.companyId,
+            userDataArr.departmentId,
             userDataArr.companyLogo,
             userDataArr.token,
           )
@@ -55,8 +62,13 @@ const StartupScreen = props => {
             userDataArr.userEmail,
           )
         );
-
-        props.navigation.navigate('App');
+          
+        if(userDataArr.departmentId == "Management"){
+          props.navigation.navigate('Calendar');
+        }else{
+          props.navigation.navigate('App');
+        }
+        
       }
       // console.log(userData);
       

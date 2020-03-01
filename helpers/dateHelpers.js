@@ -10,6 +10,18 @@ export const getTodayDate = () => {
     return today;
 }
 
+export const getTodaysDateInSlashFormat = () => {
+  let today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  const yyyy = today.getFullYear();
+
+  today = dd + '/' + mm + '/' + yyyy;
+  return today;
+}
+
+
+
 export const getDateOfAddedOrSubscractedDays = (date, addedOrSubscracted, noOfDays) => {
   let selected_date = new Date(date);
   
@@ -71,6 +83,17 @@ export const getDateFull = date => {
     today = yyyy + '-' + mm + '-' + dd;
     
     return today;
+}
+
+export const getDateFullPretty = date => {
+  let today = new Date(date);
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  const yyyy = today.getFullYear();
+
+  today = dd + '/' + mm + '/' + yyyy;
+  
+  return today;
 }
 
 export const getWeekData = date => {

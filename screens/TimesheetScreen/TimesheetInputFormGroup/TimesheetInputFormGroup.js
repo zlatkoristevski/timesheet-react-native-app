@@ -97,6 +97,10 @@ const TimesheetInputFormGroup = props => {
         dispatch(addTimesheetProjectElem(timesheet_id));
     }
 
+    const onFocusHoursHandler = (hours) => {
+        console.log(hours);
+    }
+
     
 
     const projectRenderData = Object.keys(projectListData).map((key) => {
@@ -138,7 +142,8 @@ const TimesheetInputFormGroup = props => {
                         style={styles.hoursContentTextInput} 
                         onChange={(e, timesheet_id, current_project_id) => updateHoursHandler(e, props.timesheetId, projectListData[key].projectId)} 
                         keyboardType="numeric" 
-                        value={projectListData[key].hours} />
+                        onFocus={(hours) => onFocusHoursHandler(projectListData[key].hours)}
+                        value={projectListData[key].hours != "0" ? projectListData[key].hours : ""} />
                 </View>
                 <View style={styles.removeProjectDataHolder}>
                     <RemoveButton onPress={(timesheet_id, current_project_id) => deleteProjectDataHandler(props.timesheetId, projectListData[key].projectId)}  />

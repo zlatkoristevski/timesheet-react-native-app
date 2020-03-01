@@ -122,7 +122,7 @@ const LoginScreen = props => {
 
 
   const loginHandler = async () => {
-    // dispatch(login(email, password));
+    
     if(email == '' && password == ''){
       Alert.alert('Warning!', 'Fill the form before submiting', [{ text: 'Okay' }]);
       return;
@@ -135,6 +135,7 @@ const LoginScreen = props => {
         await dispatch(login(email, password, rememeberMe));
   
         props.navigation.navigate('Timesheet');
+        
       } catch (err) {
         console.log(err);
         setError(err.message);

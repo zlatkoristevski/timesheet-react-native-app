@@ -103,7 +103,24 @@ export default StyleSheet.create({
         flex: 1, 
         justifyContent: 'center', 
         alignItems: 'center'
-    }
+    },
 
+    totalHoursHolder: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        padding: 10,
+        backgroundColor: Colors.tirkizLight,
+        color: Colors.white,
+    },
+    totalHoursLbl: {
+        color: Colors.white,
+        fontSize: 16
+    },
+    totalHoursVal: {
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
     
 });

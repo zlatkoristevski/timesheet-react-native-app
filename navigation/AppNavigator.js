@@ -1,5 +1,11 @@
 import React from 'react';
-import { createAppContainer, SafeAreaView, StackActions, NavigationActions, createSwitchNavigator } from 'react-navigation';
+import { 
+  createAppContainer, 
+  SafeAreaView, 
+  createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator}  from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Platform, View, Image, ScrollView, StyleSheet, AsyncStorage } from 'react-native';
@@ -9,7 +15,13 @@ import TimesheetScreen from '../screens/TimesheetScreen/TimesheetScreen';
 import TestScreen from '../screens/TestScreen/TestScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import LoginScreen from '../screens/LoginScreen/LoginScreen';
-import EventsScreen from '../screens/EventsScreen/EventsScreen';
+import PikselCalendarScreen from '../screens/PikselCalendarScreen/PikselCalendarScreen';
+import MyCalendarScreen from '../screens/MyCalendarScreen/MyCalendarScreen';
+import ListEventsScreen from '../screens/ListEventsScreen/ListEventsScreen';
+import ListDayEventsScreen from '../screens/ListDayEventsScreen/ListDayEventsScreen';
+import EventDetailScreen from '../screens/EventDetailScreen/EventDetailScreen';
+import AddEventScreen from '../screens/AddEventScreen/AddEventScreen';
+import InvitationsScreen from '../screens/InvitationsScreen/InvitationsScreen';
 import StartupScreen from '../screens/StartupScreen';
 
 import MainButton from '../components/MainButton';
@@ -21,7 +33,6 @@ import { Ionicons } from '@expo/vector-icons';
 import {
   logout,
 } from '../store/actions/auth';
-
 
 
 const defaultNavOptions = {
@@ -46,11 +57,12 @@ const TimesheetNavigator = createStackNavigator(
   },
   {
     navigationOptions: {
+      // drawerLabel: () => null,
       drawerIcon: drawerConfig => (
         <Ionicons
           name={Platform.OS === 'android' ? 'md-stopwatch' : 'ios-stopwatch'}
           size={23}
-          color={drawerConfig.tintColor}
+          color={Colors.tirkiz}
         />
       )
     },
@@ -79,9 +91,10 @@ const ProfileNavigator = createStackNavigator(
         <Ionicons
           name={Platform.OS === 'android' ? 'md-person' : 'ios-person'}
           size={23}
-          color={drawerConfig.tintColor}
+          color={Colors.tirkiz}
         />
-      )
+      ),
+      
     },
     defaultNavigationOptions: {
       headerStyle: {
@@ -97,20 +110,23 @@ const ProfileNavigator = createStackNavigator(
   }
 );
 
-const EventsNavigator = createStackNavigator(
+const PikselCalendarNavigator = createStackNavigator(
   {
-    Events: EventsScreen
+    PikselCalendar: {
+      screen: PikselCalendarScreen
+    },
+    EventDetail: {
+      screen: EventDetailScreen
+    },
+    AddEvent: {
+      screen: AddEventScreen
+    },
+    ListDayEvents: {
+      screen: ListDayEventsScreen
+    }
   },
   {
-    navigationOptions: {
-      drawerIcon: drawerConfig => (
-        <Ionicons
-          name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}
-          size={23}
-          color="black"
-        />
-      )
-    },
+    // initialRouteName: 'Categories',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
@@ -124,6 +140,187 @@ const EventsNavigator = createStackNavigator(
     }
   }
 );
+
+
+const MyCalendarNavigator = createStackNavigator(
+  {
+    MyCalendar: {
+      screen: MyCalendarScreen
+    },
+    EventDetail: {
+      screen: EventDetailScreen
+    },
+    AddEvent: {
+      screen: AddEventScreen
+    },
+    ListDayEvents: {
+      screen: ListDayEventsScreen
+    }
+  },
+  {
+    // initialRouteName: 'Categories',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+      },
+      headerTitleStyle: {
+        fontFamily: 'montserrat-light',
+      },
+      headerTintColor:
+        Platform.OS === 'android' ? 'white' : Colors.primary,
+      headerTitle: 'A Screen',
+    }
+  }
+);
+
+const ListEventsNavigator = createStackNavigator(
+  {
+    ListEvents: {
+      screen: ListEventsScreen
+    },
+    AddEvent: {
+      screen: AddEventScreen
+    },
+    EventDetail: {
+      screen: EventDetailScreen
+    },
+    
+  },
+  {
+    
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+      },
+      headerTitleStyle: {
+        fontFamily: 'montserrat-light',
+      },
+      headerTintColor:
+        Platform.OS === 'android' ? 'white' : Colors.primary,
+      headerTitle: 'A Screen',
+    }
+  }
+);
+
+
+const InvitationsNavigator = createStackNavigator(
+  {
+    Invitations: {
+      screen: InvitationsScreen
+    },
+    EventDetail: {
+      screen: EventDetailScreen
+    },
+    AddEvent: {
+      screen: AddEventScreen
+    },
+  },
+  {
+    // initialRouteName: 'Categories',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+      },
+      headerTitleStyle: {
+        fontFamily: 'montserrat-light',
+      },
+      headerTintColor:
+        Platform.OS === 'android' ? 'white' : Colors.primary,
+      headerTitle: 'A Screen',
+    }
+  }
+);
+
+const tabScreenConfig = {
+  Calendar: {
+    screen: PikselCalendarNavigator,
+    navigationOptions: {
+      tabBarLabel: 'Company Cal.',
+      tabBarIcon: tabInfo => {
+        return (
+          <Ionicons
+            name="ios-calendar"
+            size={25}
+            color={Platform.OS === 'android' ? Colors.white : Colors.tirkiz} />
+        );
+      },
+      tabBarOptions: { activeTintColor: Platform.OS === 'android' ? Colors.white : Colors.tirkiz, }
+    }
+  },
+  ListEvents: {
+    screen: ListEventsNavigator,
+    navigationOptions: {
+      tabBarLabel: 'List Events',
+      tabBarIcon: tabInfo => {
+        return (
+          <Ionicons name="ios-list" size={25} color={Platform.OS === 'android' ? Colors.white : Colors.tirkiz} />
+          );
+      },
+      tabBarOptions: { activeTintColor: Platform.OS === 'android' ? Colors.white : Colors.tirkiz, }
+    }
+  },
+  Invitations: {
+    screen: InvitationsNavigator,
+    navigationOptions: {
+      tabBarLabel: 'Invitations',
+      tabBarIcon: tabInfo => {
+        return (
+          <Ionicons name="ios-paper-plane" size={25} color={Platform.OS === 'android' ? Colors.white : Colors.tirkiz} />
+        );
+      },
+      tabBarOptions: { activeTintColor: Platform.OS === 'android' ? Colors.white : Colors.tirkiz, }
+    }
+  },
+  
+  MyCalendar: {
+    screen: MyCalendarNavigator,
+    navigationOptions: {
+      tabBarLabel: 'My Cal.',
+      tabBarIcon: tabInfo => {
+        return (
+          <Ionicons name="ios-today" size={25} color={Platform.OS === 'android' ? Colors.white : Colors.tirkiz} />
+        );
+      },
+      tabBarOptions: { activeTintColor: Platform.OS === 'android' ? Colors.white : Colors.tirkiz, }
+    }
+  },
+  
+};
+
+const CalendarBottomNavigator = Platform.OS === 'android'
+? createMaterialBottomTabNavigator(tabScreenConfig, {
+  navigationOptions: {
+    drawerIcon: drawerConfig => (
+      <Ionicons
+        name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}
+        size={23}
+        color={Colors.tirkiz}
+      />
+    )
+  },
+    activeTintColor: 'white',
+    shifting: true,
+    barStyle: {
+      backgroundColor: Colors.tirkiz
+    }
+  })
+: createBottomTabNavigator(tabScreenConfig, {
+    navigationOptions: {
+      drawerIcon: drawerConfig => (
+        <Ionicons
+          name={Platform.OS === 'android' ? 'md-calendar' : 'ios-calendar'}
+          size={23}
+          color={Colors.tirkiz}
+        />
+      )
+    },
+    tabBarOptions: {
+      labelStyle: {
+        fontFamily: 'open-sans'
+      },
+      activeTintColor: Colors.accentColor
+    }
+  });
 
 const LoginNavigator = createStackNavigator(
   {
@@ -137,17 +334,22 @@ const LoginNavigator = createStackNavigator(
 
 const AppNavigator = createDrawerNavigator(
   {
-
+    Calendar: CalendarBottomNavigator,
     Timesheet: TimesheetNavigator,
     Profile: ProfileNavigator,
-    // Events: EventsNavigator
   },
   {
+    contentOptions: {
+      activeTintColor: Colors.tirkiz
+    },
     contentComponent: (props) => {
       const logged_in_company_logo = useSelector(state => state.auth.logged_in_company_logo);
       // console.log(logged_in_company_logo);
 
       const dispatch = useDispatch();
+
+     
+
       return (
         <SafeAreaView>
           <View style={styles.logoContainer}>
@@ -191,11 +393,8 @@ const AppNavigator = createDrawerNavigator(
   }
 );
 
-const MainNavigator = createSwitchNavigator({
-  Startup: StartupScreen,
-  Login: LoginNavigator,
-  App: AppNavigator
-});
+
+
 
 
 const styles = StyleSheet.create({
@@ -232,4 +431,14 @@ const styles = StyleSheet.create({
   }
 });
 
+
+
+const MainNavigator = createSwitchNavigator({
+  Startup: StartupScreen,
+  Login: LoginNavigator,
+  App: AppNavigator
+});
+
 export default createAppContainer(MainNavigator);
+
+

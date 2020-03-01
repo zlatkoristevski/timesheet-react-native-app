@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Piksel Timesheet",
+    "description": "Timesheet app for tracking working time based on clients and projects.",
     "slug": "piksel-timesheet",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -8,22 +9,39 @@
       "ios",
       "android"
     ],
-    "version": "1.0.3",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 5000
+      "fallbackToCacheTimeout": 10000
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "notification": {
+      "icon": "./assets/icon for_notifications.png",
+      "color": "#000000",
+      "iosDisplayInForeground": true,
+      "androidMode": "default",
+      "androidCollapsedTitle": "#{unread_notifications} new interactions"
+    },
     "ios": {
+      "buildNumber": "1.0.1",
+      "bundleIdentifier": "mk.piksel.timesheetapp",
       "supportsTablet": false
+    },
+    "android": {
+      "package": "mk.piksel.timesheetapp", 
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#fff"
+      },
     }
   }
 }
