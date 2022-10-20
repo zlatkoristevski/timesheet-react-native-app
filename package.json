@@ -23,7 +23,7 @@
     "react-native-multiple-select": "^0.5.5",
     "react-native-paper": "^3.4.0",
     "react-native-picker-select": "^6.3.3",
-    "react-native-reanimated": "~1.2.0",
+    "react-native-reanimated": "~2.10.0",
     "react-native-screens": "~1.0.0-alpha.23",
     "react-native-sectioned-multi-select": "^0.7.6",
     "react-native-swipe-gestures": "^1.0.4",
